@@ -48,7 +48,7 @@ app.post('/signup', async (req, res) => {
         // Check if username already exists
         const existingUser = await userModel.findOne({ username });
         if (existingUser) {
-            return res.json({
+            return res.statusCode(304).json({
                 message: "Username already exists",
                 status: false,
             });
@@ -64,7 +64,7 @@ app.post('/signup', async (req, res) => {
             password: hashedPassword,
         });
 
-        res.json({
+        res.statusCode(200).json({
             message: "User created successfully",
             status: true,
             data: createuser,
@@ -95,7 +95,7 @@ app.post('/login', async (req, res) => {
         }
 
         const user = await userModel.findOne({ username });
-        console.log("Found user:", user); // Log the user found
+        console.log("Found user:", user); 
         
         if (!user) {
             return res.json({
@@ -104,7 +104,7 @@ app.post('/login', async (req, res) => {
             });
         }
         
-        // Compare entered password with hashed password
+  
         const isPasswordValid = await bcrypt.compare(password, user.password);
      
         
@@ -115,7 +115,7 @@ app.post('/login', async (req, res) => {
             });
         }
         
-        // Generate JWT token
+        // JWT token
         const token = jwt.sign({ username: user.username }, JWT_SECRET_KEY);
         console.log("Generated token:", token); 
 
