@@ -48,7 +48,7 @@ app.post('/signup', async (req, res) => {
         // Check if username already exists
         const existingUser = await userModel.findOne({ username });
         if (existingUser) {
-            return res.statusCode(304).json({
+            return res.status(304).json({
                 message: "Username already exists",
                 status: false,
             });
@@ -64,7 +64,7 @@ app.post('/signup', async (req, res) => {
             password: hashedPassword,
         });
 
-        res.statusCode(200).json({
+        res.status(200).json({
             message: "User created successfully",
             status: true,
             data: createuser,
